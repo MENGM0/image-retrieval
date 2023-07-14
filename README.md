@@ -1,2 +1,1 @@
-# learn_java
-record some java code (eg: juc, algorithm).
+code demo: juc, algorithm...

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Grid</title>
+    <style>
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 确保border和padding不会增加元素的总宽度 */
+        }
+        #image-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .image-item {
+            width: 100%;
+            height: auto;
+        }
+        .image-link {
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-grid"></div>
+    <script>
+        function fetchImages(count) {
+            fetch(`http://localhost:8080/images/path/${count}`)
+                .then(response => response.json())
+                .then(data => {
+					console.log(`Image ${data.data}`);
+					console.log(`hello world}`);
+                    const grid = document.getElementById('image-grid');
+                    data.data.forEach(imageSrc => {
+						const a = document.createElement('a');
+						a.href = imageSrc;
+						a.target = '_blank'; // Open in a new tab/window
+						a.setAttribute('id', 'swipebox');
+						
+                        const img = document.createElement('img');
+                        img.src = imageSrc;
+                        img.alt = 'Image ' + data.data.indexOf(imageSrc) + 1;
+                        img.className = 'image-item';
+						
+						const link = document.createElement('div');
+						link.className = 'image-link';
+						link.textContent = imageSrc; // Optional: display image URL below the image
+						
+						a.appendChild(img);
+						//a.appendChild(link);
+						grid.appendChild(a);
+                    });
+                })
+                .catch(error => console.error('Error fetching images:', error));
+        }
+
+
+        // 调用函数请求图片，这里假设请求16张图片
+        fetchImages(166);
+    </script>
+</body>
+</html>

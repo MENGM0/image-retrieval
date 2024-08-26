@@ -1,0 +1,19 @@
+use videoPlatfrom;
+CREATE TABLE image_record (
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '图片id',
+    image_tags VARCHAR(255) COMMENT '图片标签',
+    image_path VARCHAR(255) NOT NULL COMMENT '图片路径',
+    features VARCHAR(512) NOT NULL COMMENT '图片特征',
+    create_time DATETIME
+)ENGINE=INNODB DEFAULT charset=utf8mb4;
+
+use videoPlatfrom;
+INSERT image_record(id, image_tags, image_path, create_time)
+VALUE(1, '风景', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(2, '人物', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(3, '玩具', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(4, '动物', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(5, '街拍', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(6, '写实', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(7, '风光', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24'),
+(8, '汽车', 'F:\projects\VideoPlatform\VideoPlatform\src\main\resources\static','2024-08-24');

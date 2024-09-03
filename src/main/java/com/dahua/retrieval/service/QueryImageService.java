@@ -1,4 +1,4 @@
-package com.dahua.retrieval.service.impl;
+package com.dahua.retrieval.service;
 
 import org.springframework.stereotype.Service;
 

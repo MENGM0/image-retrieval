@@ -1,7 +1,7 @@
 package com.dahua.retrieval.controller;
 
 import com.dahua.retrieval.common.Result;
-import com.dahua.retrieval.service.impl.QueryImageService;
+import com.dahua.retrieval.service.QueryImageService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

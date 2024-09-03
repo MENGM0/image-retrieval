@@ -1,4 +1,4 @@
-package com.dahua.VideoPlatform;
+package com.dahua.retrieval;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

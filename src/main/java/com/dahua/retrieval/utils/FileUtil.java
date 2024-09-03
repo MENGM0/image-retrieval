@@ -82,6 +82,29 @@ public class FileUtil {
         return fileListCopy.subList(0, Math.min(n, fileListCopy.size()));
     }
 
+    public static void calcMemory(){
+        // 获取Runtime对象
+        Runtime runtime = Runtime.getRuntime();
+
+        // 获取总内存
+        long totalMemory = runtime.totalMemory();
+
+        // 获取空闲内存
+        long freeMemory = runtime.freeMemory();
+
+        // 获取已使用内存
+        long usedMemory = totalMemory - freeMemory;
+
+        // 打印内存信息
+        System.out.println("总内存: " + totalMemory + " bytes");
+        System.out.println("空闲内存: " + freeMemory + " bytes");
+        System.out.println("已使用内存: " + usedMemory + " bytes");
+
+        // 打印内存使用百分比
+        double memoryUsagePercentage = (double) usedMemory / totalMemory * 100;
+        System.out.println("内存使用百分比: " + memoryUsagePercentage + "%");
+    }
+
 
 
 }

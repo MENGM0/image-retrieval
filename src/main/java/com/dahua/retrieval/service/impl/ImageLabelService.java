@@ -1,4 +1,4 @@
-package com.dahua.VideoPlatform.service;
+package com.dahua.retrieval.service.impl;
 
 import org.springframework.stereotype.Service;
 

@@ -1,13 +1,14 @@
-package com.dahua.VideoPlatform.service;
+package com.dahua.retrieval.service.impl;
 
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dahua.VideoPlatform.utils.FileUtil.getFileAbsolutePaths;
-import static com.dahua.VideoPlatform.utils.FileUtil.getRandomPaths;
-import static com.dahua.constant.Constant.TELEGRAM_IMAGE_ROOT_PATH;
+import static com.dahua.retrieval.constant.Constant.TELEGRAM_IMAGE_ROOT_PATH;
+import static com.dahua.retrieval.utils.FileUtil.getFileAbsolutePaths;
+import static com.dahua.retrieval.utils.FileUtil.getRandomPaths;
+
 
 @Service
 public class QueryImageService {

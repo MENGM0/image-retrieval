@@ -1,16 +1,9 @@
-package com.dahua.VideoPlatform.controller;
+package com.dahua.retrieval.controller;
 
-
-import com.dahua.VideoPlatform.common.Result;
-import com.dahua.VideoPlatform.service.QueryImageService;
+import com.dahua.retrieval.common.Result;
+import com.dahua.retrieval.service.impl.QueryImageService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.dahua.VideoPlatform.utils.FileUtil.getFileAbsolutePaths;
-import static com.dahua.VideoPlatform.utils.FileUtil.getRandomPaths;
-import static com.dahua.constant.Constant.TELEGRAM_IMAGE_ROOT_PATH;
 
 @CrossOrigin
 @RestController

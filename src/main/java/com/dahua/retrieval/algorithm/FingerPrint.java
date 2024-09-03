@@ -1,5 +1,4 @@
-package com.dahua.retrieval.service.impl;
-import com.dahua.retrieval.service.SimilarityCalculate;
+package com.dahua.retrieval.algorithm;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -9,17 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
-
-import static com.dahua.retrieval.constant.Constant.AI_CHALLENGER_CAPTION_VAL_ROOT_PATH;
-import static com.dahua.retrieval.service.impl.PerceptualHashAlgorithm.readFingerPrintListMultiThread;
-import static com.dahua.retrieval.utils.FileUtil.getFileAbsolutePaths;
 
 /**
  * 均值哈希实现图像指纹比较

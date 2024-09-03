@@ -1,5 +1,6 @@
 package com.dahua.retrieval.service.impl;
 
+import com.dahua.retrieval.algorithm.FingerPrint;
 import com.dahua.retrieval.service.SimilarityCalculate;
 
 import javax.imageio.ImageIO;

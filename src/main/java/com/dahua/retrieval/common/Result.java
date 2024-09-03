@@ -1,4 +1,4 @@
-package com.dahua.VideoPlatform.common;
+package com.dahua.retrieval.common;
 
 import lombok.Getter;
 import lombok.Setter;

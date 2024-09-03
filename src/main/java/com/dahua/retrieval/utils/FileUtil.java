@@ -1,4 +1,4 @@
-package com.dahua.VideoPlatform.utils;
+package com.dahua.retrieval.utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,8 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.dahua.constant.Constant.IMAGE_PATH;
-import static com.dahua.constant.Constant.TELEGRAM_IMAGE_ROOT_PATH;
+import static com.dahua.retrieval.constant.Constant.IMAGE_PATH;
+import static com.dahua.retrieval.constant.Constant.TELEGRAM_IMAGE_ROOT_PATH;
+
 
 public class FileUtil {
 

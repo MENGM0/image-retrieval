@@ -292,6 +292,8 @@ public class FingerPrint  {
         return new FingerPrint(image1).compare(new FingerPrint(image2));
     }
 
+    // todo:
+
 
     public static void main(String[] args) throws IOException {
         //调用算法代码处理图片数据

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -285,7 +286,7 @@ public class FingerPrint  {
         }
         return (float)sameCount/f1.length;
     }
-    public static float compareCompact(byte[] f1,byte[] f2){
+    public static float compareCompact(byte[] f1, byte[] f2){
         return compare(uncompact(f1),uncompact(f2));
     }
     public static float compare(BufferedImage image1,BufferedImage image2){
@@ -293,7 +294,9 @@ public class FingerPrint  {
     }
 
     // todo:
-
+//    public static float compare(List<BufferedImage> image1, List<BufferedImage> image2){
+//        return new FingerPrint(image1).compare(new FingerPrint(image2));
+//    }
 
     public static void main(String[] args) throws IOException {
         //调用算法代码处理图片数据

@@ -1,13 +1,20 @@
 package com.dahua.retrieval.utils;
 
+import com.dahua.retrieval.algorithm.FingerPrint;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.dahua.retrieval.constant.Constant.IMAGE_PATH;
-import static com.dahua.retrieval.constant.Constant.TELEGRAM_IMAGE_ROOT_PATH;
+import static com.dahua.retrieval.constant.Constant.*;
 
 
 public class FileUtil {
@@ -80,6 +87,31 @@ public class FileUtil {
         Collections.shuffle(fileListCopy);
         // 获取前n个元素，如果n大于列表大小，则返回整个列表
         return fileListCopy.subList(0, Math.min(n, fileListCopy.size()));
+    }
+
+    public static void getIndexMapImageId(){
+        List<String> imagePathList =  getFileAbsolutePaths(ACC_VAL_IMAGE_ROOT_PATH);
+        List<JSONObject> mapJson = new ArrayList<>();
+
+        for (int i = 1; i  <= imagePathList.size(); i++){
+            String path = imagePathList.get(i-1);
+            JSONObject obj = new JSONObject();//创建JSONObject对象
+            obj.put("index", i);
+            obj.put("image_id", new File(path).getName());
+            mapJson.add(obj);
+        }
+
+        // 将List转换为JSONArray
+        JSONArray jsonArray = new JSONArray(mapJson);
+        // 写入文件
+        try (FileWriter file = new FileWriter(ACC_VAL_INDEX_MAP_IMAGE_ID_FILE)) {
+            file.write(jsonArray.toString(4)); // 4是缩进的空格数
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public static void calcMemory(){

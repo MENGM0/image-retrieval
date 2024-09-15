@@ -1,7 +1,8 @@
 package com.dahua.retrieval.controller;
 
 import com.dahua.retrieval.common.Result;
-import com.dahua.retrieval.service.QueryImageService;
+import com.dahua.retrieval.service.ContentSearch;
+import com.dahua.retrieval.service.impl.ContentSearchImpl;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,16 +12,14 @@ import java.util.List;
 
 public class ImageController {
 
-    QueryImageService queryImageService = new QueryImageService();
+    ContentSearch contentSearch = new ContentSearchImpl();
 
     // http://localhost:8080/images/path/50
     @GetMapping(value = "/path/{count}", produces = "application/json")
-    public Result<List<String>> getImages(@PathVariable Integer count) {
-        // 返回图片路径列表
-        List<String> path = queryImageService.getImageList(count);
-        System.out.println("one request");
-        System.out.println("path: " + path.toString());
-        return  Result.success(path);
+    public Result<List<String>> contentSimilarImage(@PathVariable Integer count) {
+        // TODO: 根据图片id，返回内容相似图片
+        contentSearch.getSimilarImageById("id");
+        return  Result.success(null);
     }
 
     // http://localhost:8080/images/label

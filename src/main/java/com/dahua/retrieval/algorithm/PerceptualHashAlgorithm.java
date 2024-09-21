@@ -534,7 +534,7 @@ public class PerceptualHashAlgorithm {
         }
         System.out.println("写入" + first10Entries.size() + "张图片，运行时间" + (System.currentTimeMillis() - startTime)+ "毫秒");
         System.out.println("平均写入时间" + (System.currentTimeMillis() - startTime) / first10Entries.size() + "毫秒" );
-
+        System.out.println("写入路径：" + savePath);
     }
 
     // todo: 统计图片id是否重复

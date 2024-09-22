@@ -8,15 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.List;
 
 import javax.imageio.ImageIO;
-
-/**
- * 均值哈希实现图像指纹比较
- * @author guyadong
- *
- */
 
 
 public class FingerPrint  {
@@ -292,11 +285,6 @@ public class FingerPrint  {
     public static float compare(BufferedImage image1,BufferedImage image2){
         return new FingerPrint(image1).compare(new FingerPrint(image2));
     }
-
-    // todo:
-//    public static float compare(List<BufferedImage> image1, List<BufferedImage> image2){
-//        return new FingerPrint(image1).compare(new FingerPrint(image2));
-//    }
 
     public static void main(String[] args) throws IOException {
         //调用算法代码处理图片数据

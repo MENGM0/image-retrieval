@@ -407,16 +407,14 @@ public class PerceptualHashAlgorithm {
         System.out.println("写入路径：" + savePath);
     }
 
-
-    public static void main(String[] args) throws IOException {
+    public static void processValDataset() throws IOException {
         // 1. 抽取所有图片指纹信息，保存到json（多线程读取）
-//        extractImageFeature(ACC_VAL_DATASET_IMAGE_ROOT_PATH, ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
-//
-//        // 2. 计算相似图片
-//        // 2.1 读取图片特征
-//        Map<String, FingerPrint> imageId2Feature = loadImageFeature(ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
-//        // 2.2 计算图片的相似图片(top50)
-//        compareSimilarImageListByIndex(imageId2Feature, ACC_VAL_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_DATASET_INDEX_2_IMAGE_ID_PATH);
+        extractImageFeature(ACC_VAL_DATASET_IMAGE_ROOT_PATH, ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
+        // 2. 计算相似图片
+        // 2.1 读取图片特征
+        Map<String, FingerPrint> imageId2Feature = loadImageFeature(ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
+        // 2.2 计算图片的相似图片(top50)
+        compareSimilarImageListByIndex(imageId2Feature, ACC_VAL_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_DATASET_INDEX_2_IMAGE_ID_PATH);
 
         // 3. 画图
         // 3.1 加载相似图片列表
@@ -424,13 +422,19 @@ public class PerceptualHashAlgorithm {
         // 3.2 画图，展示相似图片
         plotPartialSimilarImages(similarList);
 
+    }
 
-
+    public static void processDemoDataset() throws IOException {
         // demo（小数据量，直接运行）
-//        extractImageFeature(ACC_DEMO_DATASET_IMAGE_ROOT_PATH, ACC_DEMO_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
-//        Map<String, FingerPrint> fingerPrintMap = loadImageFeature(ACC_DEMO_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
-//        compareSimilarImageListByIndex(fingerPrintMap, ACC_DEMO_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_DEMO_DATASET_INDEX_2_IMAGE_ID_PATH);
-//        Map<String, Map<String, Double>> similarList = loadSimilarList(ACC_DEMO_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_DEMO_DATASET_INDEX_2_IMAGE_ID_PATH);
-//        plotPartialSimilarImages(similarList);
+        extractImageFeature(ACC_DEMO_DATASET_IMAGE_ROOT_PATH, ACC_DEMO_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
+        Map<String, FingerPrint> fingerPrintMap = loadImageFeature(ACC_DEMO_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
+        compareSimilarImageListByIndex(fingerPrintMap, ACC_DEMO_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_DEMO_DATASET_INDEX_2_IMAGE_ID_PATH);
+        Map<String, Map<String, Double>> similarList = loadSimilarList(ACC_DEMO_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_DEMO_DATASET_INDEX_2_IMAGE_ID_PATH);
+        plotPartialSimilarImages(similarList);
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        processValDataset();
     }
 }

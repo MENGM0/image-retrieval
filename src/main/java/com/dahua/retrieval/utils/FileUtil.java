@@ -1,30 +1,14 @@
 package com.dahua.retrieval.utils;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.dahua.retrieval.common.constant.Constant.*;
-
-
 public class FileUtil {
 
     public static void main(String[] args) {
-        String dir = IMAGE_PATH;
-
-//        List<String> fileName = getFileNames(dir);
-        List<String> filePath = getFileAbsolutePaths(TELEGRAM_IMAGE_ROOT_PATH);
-        List<String> randomFilePath = getRandomPaths(filePath, 5);
-//        System.out.println(getRandomPaths(filePath, 5));
-        System.out.println(filePath.size());
-        System.out.println(getRandomPaths(filePath, 5));
     }
 
     public static List<String> getFileNames(String directoryPath){
@@ -49,6 +33,7 @@ public class FileUtil {
         return fileNames;
     }
 
+
     public static List<String> getFileAbsolutePaths(String directoryPath) {
         List<String> filePaths = new ArrayList<>();
         File directory = new File(directoryPath);
@@ -58,6 +43,7 @@ public class FileUtil {
 
         return filePaths;
     }
+
 
     private static void traverseDirectory(File dir, List<String> filePaths) {
         if (dir.isDirectory()) {
@@ -85,55 +71,5 @@ public class FileUtil {
         // 获取前n个元素，如果n大于列表大小，则返回整个列表
         return fileListCopy.subList(0, Math.min(n, fileListCopy.size()));
     }
-
-    public static void getIndexMapImageId(){
-        List<String> imagePathList =  getFileAbsolutePaths(ACC_VAL_DATASET_IMAGE_ROOT_PATH);
-        List<JSONObject> mapJson = new ArrayList<>();
-
-        for (int i = 1; i  <= imagePathList.size(); i++){
-            String path = imagePathList.get(i-1);
-            JSONObject obj = new JSONObject();//创建JSONObject对象
-            obj.put("index", i);
-            obj.put("image_id", new File(path).getName());
-            mapJson.add(obj);
-        }
-
-        // 将List转换为JSONArray
-        JSONArray jsonArray = new JSONArray(mapJson);
-        // 写入文件
-        try (FileWriter file = new FileWriter(ACC_VAL_INDEX_MAP_IMAGE_ID_FILE)) {
-            file.write(jsonArray.toString(4)); // 4是缩进的空格数
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public static void calcMemory(){
-        // 获取Runtime对象
-        Runtime runtime = Runtime.getRuntime();
-
-        // 获取总内存
-        long totalMemory = runtime.totalMemory();
-
-        // 获取空闲内存
-        long freeMemory = runtime.freeMemory();
-
-        // 获取已使用内存
-        long usedMemory = totalMemory - freeMemory;
-
-        // 打印内存信息
-        System.out.println("总内存: " + totalMemory + " bytes");
-        System.out.println("空闲内存: " + freeMemory + " bytes");
-        System.out.println("已使用内存: " + usedMemory + " bytes");
-
-        // 打印内存使用百分比
-        double memoryUsagePercentage = (double) usedMemory / totalMemory * 100;
-        System.out.println("内存使用百分比: " + memoryUsagePercentage + "%");
-    }
-
-
 
 }

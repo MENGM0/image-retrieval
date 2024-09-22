@@ -467,7 +467,41 @@ public class PerceptualHashAlgorithm {
 
     }
 
+    /**
+     * 加载相似图片列表
+     * @param jsonPath
+     * @param indexPath
+     * @return
+     */
+    public static Map<String, Map<String, Double>> loadJsonSimilarList(String jsonPath, String indexPath){
+        Map<String, Map<String, Double>> similarList = new HashMap<>();
+        try {
+            // 读取文件内容到字符串
+            String content = new String(Files.readAllBytes(Paths.get(jsonPath)));
+            // 读取index文件
+            Map<String, Integer> imageIdToIndex = (Map<String, Integer>) readImageIdIndex(indexPath, 1);
+            Map<Integer, String> indexIdToImageId = imageIdToIndex.entrySet().stream().collect(Collectors.toMap(entry -> entry.getValue(), entry -> entry.getKey()));
 
+            // 将字符串转换为JSONArray
+            JSONArray jsonArray = new JSONArray(content);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Map<String, Double> imageScoreList = new HashMap<>();
+                JSONObject obj = jsonArray.getJSONObject(i);
+                String imageId = String.valueOf(indexIdToImageId.get(Integer.valueOf(obj.get("image_id").toString())));
+                JSONArray similarJsonArray = (JSONArray) obj.get("similar_image");
+                JSONArray scoreJsonArray = (JSONArray) obj.get("similar_score");
+                for (int j = 0; j < similarJsonArray.length(); j++){
+                    String similarImageId = String.valueOf(indexIdToImageId.get(Integer.valueOf(similarJsonArray.get(j).toString()) ));
+                    Double similarScore = Double.valueOf(scoreJsonArray.get(j).toString());
+                    imageScoreList.put(similarImageId, similarScore);
+                }
+                similarList.put(imageId, imageScoreList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return similarList;
+    }
     /**
      * 压缩
      * [
@@ -579,10 +613,10 @@ public class PerceptualHashAlgorithm {
 //        Map<String, FingerPrint> fingerPrintMap = loadJsonImageFeatureFP(ACC_DEMO_FEATURE_FINGER_PRINT_JSON_PATH);
 //        compareFpJsonZip(fingerPrintMap, ACC_DEMO_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_DEMO_IMAGE_ID_INDEX_PATH);
 
-        Map<String, FingerPrint> fingerPrintMap = loadJsonImageFeatureFP(ACC_VAL_FEATURE_FINGER_PRINT_JSON_PATH);
-        compareFpJsonZip(fingerPrintMap, ACC_VAL_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_IMAGE_ID_INDEX_PATH);
+//        Map<String, FingerPrint> fingerPrintMap = loadJsonImageFeatureFP(ACC_VAL_FEATURE_FINGER_PRINT_JSON_PATH);
+//        compareFpJsonZip(fingerPrintMap, ACC_VAL_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_IMAGE_ID_INDEX_PATH);
 //        simple(ACC_DEMO_IMAGE_ROOT_PATH);
-
+        Map<String, Map<String, Double>> similarList = loadJsonSimilarList(ACC_VAL_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_IMAGE_ID_INDEX_PATH);
 
         // 4. 跑结果，demo
 //        saveImageFingerPrintJson(AI_CHALLENGER_CAPTION_DEMO_ROOT_PATH, ACC_FEATURE_FINGER_PRINT_DEMO_JSON_PATH);

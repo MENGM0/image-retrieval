@@ -173,22 +173,12 @@ public class CaptionProcess {
                 }
             }
         }
-
         g2d.dispose();
-
         // 保存最终的图片
         ImageIO.write(gridImage, "png", new File(ACC_VAL_DATASET_SEMANTIC_PLOT_RESULT_DIR + "\\" + name + ".jpg"));
     }
 
-    public static void main(String[] args) throws IOException {
-        // demo
-        double result = Similarity.cilinSimilarity("电动车", "自行车");
-        System.out.println(result);
-        String word = "混蛋";
-        HownetWordTendency hownetWordTendency = new HownetWordTendency();
-        result = hownetWordTendency.getTendency(word);
-        System.out.println(word + "  词语情感趋势值：" + result);
-
+    public static void testCalculateSemanticSimilar() throws IOException {
         // process
         CaptionProcess captionProcess = new CaptionProcess(ACC_VAL_CAPTION_TAG_FILE_PATH, ACC_VAL_CAPTION_ANNOTATION_FILE_PATH);
         Scanner scanner = new Scanner(System.in);
@@ -210,7 +200,19 @@ public class CaptionProcess {
             }
         }
         scanner.close();
+    }
 
-        System.out.println("hello");
+    public static void main(String[] args) throws IOException {
+        // demo for jar
+        double result = Similarity.cilinSimilarity("电动车", "自行车");
+        System.out.println(result);
+        String word = "混蛋";
+        HownetWordTendency hownetWordTendency = new HownetWordTendency();
+        result = hownetWordTendency.getTendency(word);
+        System.out.println(word + "  词语情感趋势值：" + result);
+
+
+        // test semantic similarity for image retrieval
+//        testCalculateSemanticSimilar();
     }
 }

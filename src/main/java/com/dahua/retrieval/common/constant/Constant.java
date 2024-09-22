@@ -26,6 +26,7 @@ public class Constant {
     public static String ACC_VAL_CAPTION_TAG_FILE_PATH = RESOURCE_ROOT_PATH + "F:\\projects\\image-retrieval\\src\\main\\resources\\json\\sentence\\caption_validation_tags_20170910.json";
     public static String ACC_VAL_CAPTION_ANNOTATION_FILE_PATH = "F:\\projects\\image-retrieval\\src\\main\\resources\\json\\sentence\\caption_validation_annotations_20170910.json";
     public static String ACC_VAL_INDEX_MAP_IMAGE_ID_FILE = "F:\\projects\\image-retrieval\\src\\main\\resources\\json\\val_idx_map_image_id.txt";
+    public static String ACC_VAL_DATASET_SEMANTIC_PLOT_RESULT_DIR = "plot\\content";
 
 
 

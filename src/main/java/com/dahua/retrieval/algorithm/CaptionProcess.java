@@ -79,16 +79,6 @@ public class CaptionProcess {
     }
 
 
-
-
-//    public List<String> search(List<String> keywords){
-//
-//        for(String keyword: keywords){
-//
-//        }
-//    }
-
-//    public List<String> search(String keyword){
     public void search(String keyword) throws IOException {
         Map<String, Float> similarity = new HashMap<>();
         for (String tag: this.tags){
@@ -101,28 +91,7 @@ public class CaptionProcess {
 
         // 打印前50个元素
         top50.forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
-
-//        createImageGridWithLabels(top50, 5, 100, 20);
-
     }
-
-//    public void searchSentence(String[] keywords) throws IOException {
-//        Map<String, Float> similarity = new HashMap<>();
-//        String phrase = String.join("", keywords);
-//        for (String imageId: this.imageToCaption.keySet()){
-//            String caption = this.imageToCaption.get(imageId);
-//            similarity.put(imageId, (float) Similarity.phraseSimilarity(phrase, caption));
-//        }
-//        List<Map.Entry<String, Float>> top50 = similarity.entrySet().stream()
-//                .sorted(Map.Entry.<String, Float>comparingByValue().reversed())
-//                .limit(50)
-//                .collect(Collectors.toList());
-//
-//        // 打印前50个元素
-//        top50.forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
-//
-//        createImageGridWithLabels(top50, 5, 100, 20, phrase);
-//    }
 
     public List<Map.Entry<String, Float>> searchSentence(String[] keywords) throws IOException {
         Map<String, Float> similarity = new HashMap<>();
@@ -208,24 +177,20 @@ public class CaptionProcess {
         g2d.dispose();
 
         // 保存最终的图片
-        ImageIO.write(gridImage, "png", new File(ACC_DEMO_TEXT_PLOT_RESULT_PATH + "\\" + name + ".jpg"));
+        ImageIO.write(gridImage, "png", new File(ACC_VAL_DATASET_SEMANTIC_PLOT_RESULT_DIR + "\\" + name + ".jpg"));
     }
 
     public static void main(String[] args) throws IOException {
+        // demo
         double result = Similarity.cilinSimilarity("电动车", "自行车");
         System.out.println(result);
-
         String word = "混蛋";
         HownetWordTendency hownetWordTendency = new HownetWordTendency();
         result = hownetWordTendency.getTendency(word);
         System.out.println(word + "  词语情感趋势值：" + result);
 
-//        Map<String, List<String>> tags = loadSentenceTag();
-
-        CaptionProcess a = new CaptionProcess(ACC_VAL_CAPTION_TAG_FILE_PATH, ACC_VAL_CAPTION_ANNOTATION_FILE_PATH);
-//        a.search("男人");
-//        a.searchSentence("男人");
-
+        // process
+        CaptionProcess captionProcess = new CaptionProcess(ACC_VAL_CAPTION_TAG_FILE_PATH, ACC_VAL_CAPTION_ANNOTATION_FILE_PATH);
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("请输入一个字符串或字符串数组，输入'exit'退出程序：");
@@ -234,19 +199,14 @@ public class CaptionProcess {
                 System.out.println("程序已退出。");
                 break;
             }
-
             try {
                 // 尝试将输入转换为字符串数组
                 String[] inputArray = input.split(",");
                 // 处理字符串数组
-                a.searchSentence(inputArray);
-
-//                processInput(inputArray);
+                captionProcess.searchSentence(inputArray);
             } catch (Exception e) {
                 // 如果输入不是有效的字符串数组，将其视为单个字符串
-//                processInput(new String[]{input});
-                a.searchSentence(new String[]{input});
-
+                captionProcess.searchSentence(new String[]{input});
             }
         }
         scanner.close();

@@ -264,10 +264,10 @@ public class FingerPrint  {
         return compare(binaryzationMatrix,src.binaryzationMatrix);
     }
 
-    public Map<String, Float> batchCompare(Map<String, FingerPrint> srcMap){
-        Map<String, Float> res = new HashMap<>();
+    public Map<String, Double> batchCompare(Map<String, FingerPrint> srcMap){
+        Map<String, Double> res = new HashMap<>();
         for (Map.Entry<String, FingerPrint> entry : srcMap.entrySet()){
-            res.put(entry.getKey(), compare(entry.getValue()));
+            res.put(entry.getKey(), Double.valueOf(compare(entry.getValue())));
         }
         return res;
     }

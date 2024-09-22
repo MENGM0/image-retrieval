@@ -181,7 +181,7 @@ public class CaptionProcess {
                 if (index < imageEntries.size()) {
                     Map.Entry<String, Float> entry = imageEntries.get(index);
                     // 读取图片
-                    BufferedImage image = ImageIO.read(new File(ACC_VAL_IMAGE_ROOT_PATH + "\\" + entry.getKey()));
+                    BufferedImage image = ImageIO.read(new File(ACC_VAL_DATASET_IMAGE_ROOT_PATH + "\\" + entry.getKey()));
                     // 调整图片大小
                     BufferedImage resizedImage = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_RGB);
                     Graphics2D g2 = resizedImage.createGraphics();

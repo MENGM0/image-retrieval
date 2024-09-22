@@ -87,7 +87,7 @@ public class FileUtil {
     }
 
     public static void getIndexMapImageId(){
-        List<String> imagePathList =  getFileAbsolutePaths(ACC_VAL_IMAGE_ROOT_PATH);
+        List<String> imagePathList =  getFileAbsolutePaths(ACC_VAL_DATASET_IMAGE_ROOT_PATH);
         List<JSONObject> mapJson = new ArrayList<>();
 
         for (int i = 1; i  <= imagePathList.size(); i++){

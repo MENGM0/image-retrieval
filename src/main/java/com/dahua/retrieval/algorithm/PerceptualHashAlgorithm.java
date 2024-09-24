@@ -328,9 +328,8 @@ public class PerceptualHashAlgorithm {
      * @throws IOException
      */
     public static void compareSimilarImageListByIndex(Map<String, FingerPrint> imageId2Feature, String savePath, String indexPath) throws IOException {
-        writeImageIdIndex(ACC_VAL_DATASET_IMAGE_ROOT_PATH, indexPath);  // val
+        writeImageIdIndex(ACC_VAL_DATASET_IMAGE_ROOT_PATH, indexPath);  // imageId map to index
         Map<String, Integer> imageIdToIndex = (Map<String, Integer>) readImageIdIndex(indexPath, 1);
-        int compareNum = imageId2Feature.size();
         List<Map.Entry<String, FingerPrint>> entries = new ArrayList<>(imageId2Feature.entrySet())
                 .stream()
                 .collect(Collectors.toList());
@@ -338,7 +337,7 @@ public class PerceptualHashAlgorithm {
         List<JSONObject> resultJson = Collections.synchronizedList(new ArrayList<>());
         int topN = TOP_N;
         // 进度条
-        int total = entries.size();
+        int total = imageId2Feature.size();
         AtomicInteger progress = new AtomicInteger(0);
 
         // 获取处理器的核心数
@@ -347,30 +346,31 @@ public class PerceptualHashAlgorithm {
         ExecutorService executor = Executors.newFixedThreadPool(corePoolSize);
 
         Map<String, FingerPrint> imageIdFeatureMap = new HashMap<>();
-        for (Map.Entry<String, FingerPrint> entry1: entries){
+        for (Map.Entry<String, FingerPrint> entry: entries){
             // 提交读取图片的任务到线程池
             executor.submit(() -> {
-                // 比对图片
-                String ip1 = entry1.getKey();
-                FingerPrint fp1 = entry1.getValue();
-                // 1 VS N，比对
+                // 主图片
+                String imageId = entry.getKey();
+                // 特征库
+                FingerPrint fp1 = entry.getValue();
+                // 图片批量比对
                 Map<String, Double> res = fp1.batchCompare(imageId2Feature);
-                // 按照值从大到小排序并取前20个元素
+                // 按照值从大到小排序并取前topN个元素
                 List<Map.Entry<String, Double>> topNEntries = res.entrySet().stream()
                         .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-                        .limit(topN + 1)
+                        .limit(topN)
                         .collect(Collectors.toList());
 
                 JSONObject obj1 = new JSONObject();//创建JSONObject对象
                 List<String> similarImageList = new LinkedList<>();
                 List<Double> similarScoreList = new LinkedList<>();
-                for (int i = 1; i <= topN; i++){
+                for (int i = 0; i < topN; i++){
                     similarImageList.add(String.valueOf(imageIdToIndex.get(topNEntries.get(i).getKey())));
                     similarScoreList.add(topNEntries.get(i).getValue());
                 }
                 obj1.put("similar_image", similarImageList);
                 obj1.put("similar_score", similarScoreList);
-                obj1.put("image_id", imageIdToIndex.get(topNEntries.get(0).getKey()));
+                obj1.put("image_id", imageIdToIndex.get(imageId));
                 resultJson.add(obj1);
                 // 打印进度
                 progress.incrementAndGet();
@@ -389,8 +389,8 @@ public class PerceptualHashAlgorithm {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("比对" + entries.size() + "张图片，运行时间" + (System.currentTimeMillis() - startTime) + "毫秒");
-        System.out.println("平均运行时间" + (System.currentTimeMillis() - startTime)/ entries.size() + "毫秒" );
+        System.out.println("比对" + total + "张图片，运行时间" + (System.currentTimeMillis() - startTime) + "毫秒");
+        System.out.println("平均运行时间" + (System.currentTimeMillis() - startTime)/total + "毫秒" );
 
         startTime = System.currentTimeMillis();
         // 将List转换为JSONArray
@@ -402,25 +402,27 @@ public class PerceptualHashAlgorithm {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("写入" + entries.size() + "张图片，运行时间" + (System.currentTimeMillis() - startTime)+ "毫秒");
-        System.out.println("平均写入时间" + (System.currentTimeMillis() - startTime) / entries.size() + "毫秒" );
+        System.out.println("写入" + total + "张图片，运行时间" + (System.currentTimeMillis() - startTime)+ "毫秒");
+        System.out.println("平均写入时间" + (System.currentTimeMillis() - startTime) / total + "毫秒" );
         System.out.println("写入路径：" + savePath);
     }
 
     public static void processValDataset() throws IOException {
         // 1. 抽取所有图片指纹信息，保存到json（多线程读取）
-        extractImageFeature(ACC_VAL_DATASET_IMAGE_ROOT_PATH, ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
-        // 2. 计算相似图片
-        // 2.1 读取图片特征
+//        extractImageFeature(ACC_VAL_DATASET_IMAGE_ROOT_PATH, ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
+//        // 2. 计算相似图片
+//        // 2.1 读取图片特征
         Map<String, FingerPrint> imageId2Feature = loadImageFeature(ACC_VAL_DATASET_FEATURE_FINGER_PRINT_JSON_PATH);
-        // 2.2 计算图片的相似图片(top50)
+        System.out.println("imageId2Feature.size() = " + imageId2Feature.size());
+//        // 2.2 计算图片的相似图片(top50)
         compareSimilarImageListByIndex(imageId2Feature, ACC_VAL_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_DATASET_INDEX_2_IMAGE_ID_PATH);
 
         // 3. 画图
         // 3.1 加载相似图片列表
         Map<String, Map<String, Double>> similarList = loadSimilarList(ACC_VAL_DATASET_FEATURE_COMPARE_RESULT_JSON_PATH, ACC_VAL_DATASET_INDEX_2_IMAGE_ID_PATH);
+        System.out.println("similarList.size() = " + similarList.size());
         // 3.2 画图，展示相似图片
-        plotPartialSimilarImages(similarList);
+//        plotPartialSimilarImages(similarList);
 
     }
 

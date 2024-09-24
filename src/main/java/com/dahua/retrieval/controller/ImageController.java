@@ -1,32 +1,74 @@
 package com.dahua.retrieval.controller;
 
 import com.dahua.retrieval.common.Result;
+import com.dahua.retrieval.entity.Image;
 import com.dahua.retrieval.service.ContentSearch;
+import com.dahua.retrieval.service.ImageService;
 import com.dahua.retrieval.service.impl.ContentSearchImpl;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/images")
-
 public class ImageController {
 
-    ContentSearch contentSearch = new ContentSearchImpl();
+    private final ImageService imageService;
 
-    // http://localhost:8080/images/path/50
-    @GetMapping(value = "/path/{count}", produces = "application/json")
-    public Result<List<String>> contentSimilarImage(@PathVariable Integer count) {
-        // TODO: 根据图片id，返回内容相似图片
-        contentSearch.getSimilarImageById("id");
-        return  Result.success(null);
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
     }
 
-    // http://localhost:8080/images/label
-    @GetMapping(value = "/label", produces = "application/json")
-    public Result<List<String>> getImageLabels() {
-        // TODO:返回所有图片标签，查表
+    @PostMapping
+    public ResponseEntity<Image> uploadImage(@RequestParam("image") MultipartFile imageFile,
+                                             @RequestParam("description") String description,
+                                             @RequestParam("tags") String[] tags) {
+        // 处理图片上传
+        Image image = imageService.uploadImage(imageFile, description, tags);
+        return ResponseEntity.ok(image);
+    }
 
-        return  Result.success(null);
+    @PostMapping("/search-by-image")
+    public ResponseEntity<List<Image>> searchByImage(@RequestParam("image") MultipartFile imageFile) {
+        List<Image> similarImages = imageService.searchByImage(imageFile);
+        return ResponseEntity.ok(similarImages);
+    }
+
+    @GetMapping("/tags/{tag}")
+    public ResponseEntity<List<Image>> getImagesByTag(@PathVariable String tag) {
+        List<Image> images = imageService.getImagesByTag(tag);
+        return ResponseEntity.ok(images);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Image>> searchImagesByKeyword(@RequestParam("keyword") String keyword) {
+        List<Image> images = imageService.searchImagesByKeyword(keyword);
+        return ResponseEntity.ok(images);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Image> getImageById(@PathVariable Long id) {
+        Image image = imageService.getImageById(id);
+        return ResponseEntity.ok(image);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteImage(@PathVariable Long id) {
+        imageService.deleteImage(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Image> updateImage(@PathVariable Long id,
+                                             @RequestParam("description") String description,
+                                             @RequestParam("tags") String[] tags) {
+        Image updatedImage = imageService.updateImage(id, description, tags);
+        return ResponseEntity.ok(updatedImage);
     }
 }
